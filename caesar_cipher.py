@@ -1,3 +1,35 @@
+# Function for Encryption using Caesar Cipher
+
+def caesar_cipher_encrypt(text, key):
+    '''text: str, key: int'''
+    # reference list
+    list_of_alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 
+                    'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    # transforming inputs
+    original_text = text.lower()
+    push_by = key % 26
+    # initializing storage list
+    output = []
+    # Encryption
+    for o in original_text:
+        if o in list_of_alphabet:
+            if list_of_alphabet.index(o) + push_by < 26:
+                o = list_of_alphabet[list_of_alphabet.index(o) + push_by]
+            else:
+                o = list_of_alphabet[list_of_alphabet.index(o) + push_by - 26]
+                #print(o)
+            output.append(o)
+        else:
+            output.append(o)
+
+    return ''.join(output)
+    
+caesar_cipher_encrypt('Love you zindagi!', 13)
+
+# Next Step: Decryption
+
+#================= PRE-FUNCTION CODE ================================================
+    
 # Storing alphabets in a list
 list_of_alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 
                     'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
@@ -18,7 +50,7 @@ spaces = int(input('Number of spaces to be shifted: '))
 #else:
  #   push_by = spaces
 
-push_by = spaces
+push_by = spaces%26
 
 # Initializing an empty list to store the results from iteration
 output = []
