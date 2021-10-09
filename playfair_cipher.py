@@ -25,52 +25,70 @@ def playfair_encrypt(plain_text):
     # Printing it for reference
     print('Store the key for decryption:', '\n', key)
     
-    # Inserting 'x'/'z' between consecutive letters
-    i = 0
-    while i < len(plain_text) - 1:
-        if plain_text[i] == plain_text[i+1]:
-            if plain_text[i] != 'x':
-                plain_text = plain_text[:i+1] + 'x' + plain_text[i+1:]
-            else:
-                plain_text = plain_text[:i+1] + 'z' + plain_text[i+1:]
-        i += 1
-    
-    # Adding 'z' for odd length
-    if len(plain_text)%2 == 0:
-        plain_text = plain_text
-    else:
-        plain_text += 'z'
-    
-    # Splitting in pairs
-    i=0
-    pieces = []
-    while i < len(plain_text)/2:
-        pieces.append(plain_text[2*i:2*i+2])
-        i += 1
-    
-    # Playfair Algorithm
-    encrypted = []
-    for p in pieces:
-        lr = []
-        lc = []
-        for q in p:
-            r, c = np.where(key==q)
-            r = int(r)
-            #print(r)
-            c = int(c)
-            #print(c)
-            lr.append(r)
-            lc.append(c)
-        if lc[0] == lc[1]:
-            cipher = key[(lr[0]+1) % 5][lc[0]] + key[(lr[1]+1) % 5][lc[1]]
-        elif lr[0] == lr[1]:
-            cipher = key[lr[0]][(lc[0]+1) % 5] + key[lr[1]][(lc[1]+1) % 5]           
+    # Refining the input
+    refined = []
+    for p in plain_text:
+        if p == 'j':
+            p = 'i'
+        
+        if p in list_letters:
+            refined.append(p)
         else:
-            cipher = key[lr[0]][lc[1]] + key[lr[1]][lc[0]]
-        encrypted.append(cipher)
-    return print(''.join(encrypted))
+            refined.append(' ')
+    refined = ''.join(refined)
+    
+    refined = str.split(refined, ' ')
+    
+    for r in refined:
+    
+        # Inserting 'x'/'z' between consecutive letters
+        i = 0
+        while i < len(r) - 1:
+            if r[i] == r[i+1]:
+                if r[i] != 'x':
+                    r = r[:i+1] + 'x' + r[i+1:]
+                else:
+                    r = r[:i+1] + 'z' + r[i+1:]
+            i += 1
+        
+        # Adding 'z' for odd length
+        if len(r)%2 == 0:
+            r = r
+        else:
+            r += 'z'
+        
+        # Splitting in pairs
+        i=0
+        pieces = []
+        while i < len(r)/2:
+            pieces.append(r[2*i:2*i+2])
+            i += 1
+        
+        # Playfair Algorithm
+        encrypted = []
+        for p in pieces:
+            lr = []
+            lc = []
+            for q in p:
+                
+                r, c = np.where(key==q)
+                r = int(r)
+                #print(r)
+                c = int(c)
+                #print(c)
+                lr.append(r)
+                lc.append(c)
+    
+            if lc[0] == lc[1]:
+                cipher = key[(lr[0]+1) % 5][lc[0]] + key[(lr[1]+1) % 5][lc[1]]
+            elif lr[0] == lr[1]:
+                cipher = key[lr[0]][(lc[0]+1) % 5] + key[lr[1]][(lc[1]+1) % 5]           
+            else:
+                cipher = key[lr[0]][lc[1]] + key[lr[1]][lc[0]]
+            encrypted.append(cipher)
+        print(''.join(encrypted))
 
-playfair_encrypt('jacuzi')
+playfair_encrypt('jacuzi in the house')
 
 #=============================ROUGH WORK ==============================
 # exclude j straightaway
@@ -190,6 +208,17 @@ print(''.join(encrypted))
 # probably like JS. Which I studied in 1 week 15 months ago. Just bragging
 
 #cipher = key[lr[0]][lc[1]] + key[lr[1]][lc[0]]
+
+# Accomodating j as 'i' or allowing user to enter + handling spaces & punctuations
+refined = []
+for p in plain_text:
+    if p == 'j':
+        p = 'i'
+    
+    if p in list_letters:
+        refined.append(p)
+    else:
+        refined.append(' ')
 
         
         
