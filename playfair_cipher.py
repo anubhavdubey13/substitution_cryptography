@@ -1,11 +1,9 @@
 # Playfair cipher
 # https://www.geeksforgeeks.org/playfair-cipher-with-examples/
 
-# Missing stuff:
-    # 1. Dealing with j
-    # 2. Works only for single words. Altering it for spaces, punctuation etc.
+# Missing stuff: Decryption
 
-def playfair_encrypt(plain_text):
+def playfair_encrypt(plain_text, j = 'i'):
     
     # importing libraries
     import numpy as np
@@ -29,7 +27,7 @@ def playfair_encrypt(plain_text):
     refined = []
     for p in plain_text:
         if p == 'j':
-            p = 'i'
+            p = j
         
         if p in list_letters:
             refined.append(p)
