@@ -37,8 +37,9 @@ def playfair_encrypt(plain_text, j = 'i'):
     
     refined = str.split(refined, ' ')
     
+    final_encrypt = []
     for r in refined:
-    
+        
         # Inserting 'x'/'z' between consecutive letters
         i = 0
         while i < len(r) - 1:
@@ -84,7 +85,10 @@ def playfair_encrypt(plain_text, j = 'i'):
             else:
                 cipher = key[lr[0]][lc[1]] + key[lr[1]][lc[0]]
             encrypted.append(cipher)
-        print(''.join(encrypted))
+        final_encrypt.append(''.join(encrypted))
+        #print(''.join(encrypted))
+    print(' '.join(final_encrypt))
+    return key, ' '.join(final_encrypt)
 
 playfair_encrypt('jacuzi in the house')
 
