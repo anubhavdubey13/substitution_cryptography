@@ -90,7 +90,7 @@ def playfair_encrypt(plain_text, j = 'i'):
     print(' '.join(final_encrypt))
     return key, ' '.join(final_encrypt)
 
-playfair_encrypt('jacuzi in the house')
+key, encrypted_text = playfair_encrypt('jacuzi in the house')
 
 #=============================ROUGH WORK ==============================
 # exclude j straightaway
@@ -207,20 +207,64 @@ print(''.join(encrypted))
 
 # Will need to combine all these into a single step because we gotta use if-else
 # which reminds me that Python 4 is out and they have a switch statement 
-# probably like JS. Which I studied in 1 week 15 months ago. Just bragging
+# probably like JS. Which I studied in 1 week 15 months ago. Just bragging. Don't remember a thing
 
 #cipher = key[lr[0]][lc[1]] + key[lr[1]][lc[0]]
 
 # Accomodating j as 'i' or allowing user to enter + handling spaces & punctuations
-refined = []
-for p in plain_text:
-    if p == 'j':
-        p = 'i'
+# refined = []
+# for p in plain_text:
+#     if p == 'j':
+#         p = 'i'
     
-    if p in list_letters:
-        refined.append(p)
-    else:
-        refined.append(' ')
+#     if p in list_letters:
+#         refined.append(p)
+#     else:
+#         refined.append(' ')
 
+# ====== Blocks of Decryption
+
+r_t = encrypted_text      
+i=0
+pieces = []
+# while i < len(r)/2:
+#     if ' ' in i == False:
+#     pieces.append(r[2*i:2*i+2])
+#     i += 1
+
+# for p in r_t:
+#     while i < len(p)/2:
+#         pieces.append(p[2*i:2*i+2])
+#         i += 1
+
+while i < len(r_t):
+    if r_t[i] == ' ':
+        i += 1
+    else:
+        pieces.append(r_t[i:i+2])
+        i += 2
         
+# Playfair Algorithm
+decrypted = []
+for p in pieces:
+    lr = []
+    lc = []
+    for q in p:
         
+        r, c = np.where(key==q)
+        r = int(r)
+        #print(r)
+        c = int(c)
+        #print(c)
+        lr.append(r)
+        lc.append(c)
+
+    if lc[0] == lc[1]:
+        cipher = key[(lr[0]-1) % 5][lc[0]] + key[(lr[1]-1) % 5][lc[1]]
+    elif lr[0] == lr[1]:
+        cipher = key[lr[0]][(lc[0]-1) % 5] + key[lr[1]][(lc[1]-1) % 5]           
+    else:
+        cipher = key[lr[0]][lc[1]] + key[lr[1]][lc[0]]
+    decrypted.append(cipher)
+
+
