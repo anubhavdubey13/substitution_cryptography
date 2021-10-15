@@ -90,7 +90,7 @@ def playfair_encrypt(plain_text, j = 'i'):
     print(' '.join(final_encrypt))
     return key, ' '.join(final_encrypt)
 
-key, encrypted_text = playfair_encrypt('jacuzi in the house')
+key, encrypted_text = playfair_encrypt('hello kixxy')
 
 #=============================ROUGH WORK ==============================
 # exclude j straightaway
@@ -222,9 +222,11 @@ print(''.join(encrypted))
 #     else:
 #         refined.append(' ')
 
-# ====== Blocks of Decryption
+# ====== Blocks of Decryption============================
 
-r_t = encrypted_text      
+# 1. Algorithm in Reverse
+
+r_t = encrypted_text
 i=0
 pieces = []
 # while i < len(r)/2:
@@ -266,5 +268,63 @@ for p in pieces:
     else:
         cipher = key[lr[0]][lc[1]] + key[lr[1]][lc[0]]
     decrypted.append(cipher)
+
+# 2. Breaking the words apart
+decode = ''.join(decrypted)
+for r in range(len(r_t)):
+    if r_t[r] == ' ':
+        decode = decode[:r] + ' ' + decode[r:]
+
+print(decode) 
+       
+# 3. Handling z
+# I will involve the user
+
+decode_split = str.split(decode)
+
+for d in decode_split:
+    if d[len(d)-1] == 'z':
+        q1 = input("Do you think if some words didn't have 'z' at the end, the text would be more meaningful? (y/n):")
+        break
+
+decode_split_wz = []
+if q1 == 'y':
+    for d in decode_split:
+        #print(d)
+        if d[len(d)-1] == 'z':
+            d = d[:len(d)-1]
+            #print(d)
+        decode_split_wz.append(d)
+
+almost_there = ' '.join(decode_split_wz)
+print(almost_there)
+
+# 4. Handling x
+final_split = str.split(almost_there)
+
+final = []
+for f in final_split:
+    #print(f)
+    g = 0
+    while g < len(f):
+        #print(g)
+        if f[g] == 'x' or f[g] == 'z':
+            #print(f[g])
+            if f[g-1] == f[g+1]:
+                f = f[:g] + f[g+1:]
+            else:
+                g += 1
+        else:
+            g += 1
+    #print(f)
+    final.append(f)
+    
+print(' '.join(final))
+
+
+
+
+
+
 
 
