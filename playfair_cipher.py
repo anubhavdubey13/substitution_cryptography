@@ -1,7 +1,7 @@
 # Playfair cipher
 # https://www.geeksforgeeks.org/playfair-cipher-with-examples/
 
-# Missing stuff: Decryption
+
 
 def playfair_encrypt(plain_text, j = 'i'):
     
@@ -92,6 +92,105 @@ def playfair_encrypt(plain_text, j = 'i'):
 
 key, encrypted_text = playfair_encrypt('hello kixxy')
 
+# Decryption Function
+
+def playfair_decrypt(encrypted_text, key):
+    
+    # importing libraries
+    import numpy as np
+    
+    # Pairwise Pieces
+    r_t = encrypted_text
+    i=0
+    pieces = []
+    while i < len(r_t):
+        if r_t[i] == ' ':
+            i += 1
+        else:
+            pieces.append(r_t[i:i+2])
+            i += 2
+            
+    # Playfair Algorithm Reversal
+    decrypted = []
+    for p in pieces:
+        lr = []
+        lc = []
+        for q in p:
+            
+            r, c = np.where(key==q)
+            r = int(r)
+            #print(r)
+            c = int(c)
+            #print(c)
+            lr.append(r)
+            lc.append(c)
+
+        if lc[0] == lc[1]:
+            cipher = key[(lr[0]-1) % 5][lc[0]] + key[(lr[1]-1) % 5][lc[1]]
+        elif lr[0] == lr[1]:
+            cipher = key[lr[0]][(lc[0]-1) % 5] + key[lr[1]][(lc[1]-1) % 5]           
+        else:
+            cipher = key[lr[0]][lc[1]] + key[lr[1]][lc[0]]
+        decrypted.append(cipher)
+
+    # Breaking the words apart
+    decode = ''.join(decrypted)
+    for r in range(len(r_t)):
+        if r_t[r] == ' ':
+            decode = decode[:r] + ' ' + decode[r:]
+
+    #print(decode) 
+           
+    # 3. Handling z
+    # I will involve the user
+
+    decode_split = str.split(decode)
+    decode_split_wz = []
+    for d in decode_split:
+        
+        if d[len(d)-1] == 'z':
+            q1 = input("Do you think if some words didn't have 'z' at the end, the text would be more meaningful? (y/n):")
+    
+            if q1 == 'y':
+                for d in decode_split:
+                    #print(d)
+                    if d[len(d)-1] == 'z':
+                        d = d[:len(d)-1]
+                        #print(d)
+                    decode_split_wz.append(d)
+            
+            break
+        else:
+            decode_split_wz.append(d)
+
+    almost_there = ' '.join(decode_split_wz)
+    #print(almost_there)
+
+    # Handling x
+    final_split = str.split(almost_there)
+
+    final = []
+    for f in final_split:
+        #print(f)
+        g = 0
+        while g < len(f):
+            #print(g)
+            if f[g] == 'x' or f[g] == 'z':
+                #print(f[g])
+                if f[g-1] == f[g+1]:
+                    f = f[:g] + f[g+1:]
+                else:
+                    g += 1
+            else:
+                g += 1
+        #print(f)
+        final.append(f)
+      
+    print(' '.join(final))
+    print('j has been substituted by some other alphabet')
+
+    
+playfair_decrypt(encrypted_text, key)
 #=============================ROUGH WORK ==============================
 # exclude j straightaway
 list_of_alphabets = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 
