@@ -30,6 +30,11 @@ def input_format(plain_text):
         
     # Dividing input across 3*n matrix where n = len(pt)%3
     master = [[] for i in range(ORDER)] # Empty list of order n*ORDER
+    indices = [[] for i in range(ORDER)] # Same as above but end goal to get indices
+    
+    # List of alphabets (for indices)
+    list_of_alphabets = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 
+                    'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     
     # for j in range(len(pt)):
     #     for i in range(ORDER):
@@ -41,6 +46,19 @@ def input_format(plain_text):
             master[i].append(pt[j])
             j += 3
     
+    for i in range(ORDER):
+        j = i
+        while j < len(pt):
+            indices[i].append(list_of_alphabets.index(pt[j]))
+            j += 3
+    
     final_text = np.array(master)
-    return final_text
+    final_matrix = np.array(indices)
+    
+    return final_text, final_matrix
+
+# Next steps: multiplying key and final_matrix
+# Converting resultant matrix back to letters
+# Figure out a way to take care of spaces in text
+
     
