@@ -103,15 +103,18 @@ def input_format(plain_text):
     
     return final_text, final_matrix
 
-# Next steps: multiplying key and final_matrix
-# Converting resultant matrix back to letters
-# Figure out a way to take care of spaces in text
+# Next steps: multiplying key and final_matrix - done
+# Converting resultant matrix back to letters - done
+# Recombining the msg - done
+# Figure out a way to take care of spaces in text 
+# Next step: find inverse to check if answer correct -  done
 
 # Step 3: cipher
 def create_cipher(key, final_matrix):
     
+    code_init = np.dot(key, final_matrix) 
     code_indices = np.dot(key, final_matrix)%26
-    print(code_indices)
+    #print(code_indices)
     r, c = code_indices.shape
     
     # List of alphabets (for letters from indices)
@@ -121,11 +124,39 @@ def create_cipher(key, final_matrix):
     the_secret = [[] for i in range(ORDER)]
     
     for i in range(r):
-        print(i)
+        #print(i)
         for j in range(c):
-            print(j) # DEBUG THIS: BASICALLY USE APPEND BECAUSE OTHER MEANS ARE INEFFECTIVE
-            the_secret[i][j] = list_of_alphabets[int(code_indices[i][j])]
-            print(the_secret)
+           # print(j)
+            the_secret[i].append(list_of_alphabets[int(code_indices[i][j])])
+            #print(the_secret)
             
-    return the_secret
+    return the_secret, code_init
+
+# Step 4: Combo
+def join_the_secret(the_secret):
+    x = []
+    for i in range(len(the_secret)):
+        x.append(''.join(the_secret[i]))    
+        
+    y = ''
+    for i in range(int(len(''.join(x))/3)):
+        for j in range(len(x)):
+            y += x[j][i]
+            
+    return y
+
+# Step 5: Inverse to check
+def invert_to_check(key, code_init, final_matrix):
     
+    inverted_key = np.linalg.inv(key)
+    
+    check = np.dot(inverted_key, code_init)
+    
+    check[check <= 0] = 0
+    
+    if final_matrix == check:
+        return check, True
+    else:
+        print('Something went wrong during inverse check')
+    
+# seems good to go except the space part that would be handy in decrpytion
