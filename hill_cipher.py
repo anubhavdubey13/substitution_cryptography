@@ -3,9 +3,25 @@
 
 import numpy as np
 
-def hill_encrypt():
+def hill_encrypt(plain_text, key = None, ORDER = 3):
     
-    pass
+    # key
+    if key == None:
+        key = random_key()
+    #print(key)
+    # format input
+    final_text, final_matrix = input_format(plain_text)
+    #print(final_text, final_matrix)
+    # cipher
+    the_secret, code_init = create_cipher(key, final_matrix)
+    #print(the_secret, code_init)
+    # join the secret
+    y = join_the_secret(the_secret)
+    #print(y)
+    # sanity check
+    if invert_to_check(key, code_init, final_matrix):
+        final = spaces(plain_text, y)
+        return final
 
 # Step 1: Generate a Random Key
 ORDER = 3
@@ -69,7 +85,7 @@ def input_format(plain_text):
     
     # If the input isn't compatible for a 3*n matrix then add x's at the end
     if len(pt) % 3 != 0:
-        pt = pt + 'x'*(len(pt)%3)
+        pt = pt + 'x'*(3-len(pt)%3)
         
     # Dividing input across 3*n matrix where n = len(pt)%3
     master = [[] for i in range(ORDER)] # Empty list of order n*ORDER
@@ -154,9 +170,23 @@ def invert_to_check(key, code_init, final_matrix):
     
     check[check <= 0] = 0
     
-    if final_matrix == check:
+    if np.array_equal(final_matrix, check):
         return check, True
     else:
         print('Something went wrong during inverse check')
     
 # seems good to go except the space part that would be handy in decrpytion
+# Step 6: Identifying spaces and inserting them in code
+def spaces(plain_text, y):
+    
+    indices = []
+    
+    for i in range(len(plain_text)):
+        if plain_text[i] == ' ':
+            indices.append(i)
+            
+    for i in indices:
+        y = y[:i] + ' ' + y[i:]
+
+    return y
+
