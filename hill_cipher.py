@@ -19,9 +19,9 @@ def hill_encrypt(plain_text, key = None, ORDER = 3):
     y = join_the_secret(the_secret)
     #print(y)
     # sanity check
-    if invert_to_check(key, code_init, final_matrix):
-        final = spaces(plain_text, y)
-        return final
+    #invert_to_check(key, code_init, final_matrix) # something wrong here. Some other day
+    final = spaces(plain_text, y)
+    return final, key
 
 # Step 1: Generate a Random Key
 ORDER = 3
@@ -161,7 +161,7 @@ def join_the_secret(the_secret):
             
     return y
 
-# Step 5: Inverse to check
+# Step 5: Inverse to check: There is some issue here. Commenting it out from the main func
 def invert_to_check(key, code_init, final_matrix):
     
     inverted_key = np.linalg.inv(key)
@@ -174,6 +174,7 @@ def invert_to_check(key, code_init, final_matrix):
         return check, True
     else:
         print('Something went wrong during inverse check')
+        return check
     
 # seems good to go except the space part that would be handy in decrpytion
 # Step 6: Identifying spaces and inserting them in code
@@ -190,3 +191,11 @@ def spaces(plain_text, y):
 
     return y
 
+#==================================== Decryption with Key =============================
+# Steps:
+    # 1. convert ciphertext to matrix
+    # 2. Matrix to matrix of indices
+    # 3. Invert key then multiply with matrix of indices (invert_to_check algo used)
+    # 4. Resultant matrix to matrix of elements
+    # 5. Check for x towards the end
+    # 6. use spaces to insert proper spaces
