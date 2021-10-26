@@ -170,11 +170,12 @@ def invert_to_check(key, code_init, final_matrix):
     
     check[check <= 0] = 0
     
-    if np.array_equal(final_matrix, check):
-        return check, True
-    else:
-        print('Something went wrong during inverse check')
-        return check
+    # if np.array_equal(final_matrix, check):
+    #     return check, True
+    # else:
+    #     print('Something went wrong during inverse check')
+    #     return check
+    return check
     
 # seems good to go except the space part that would be handy in decrpytion
 # Step 6: Identifying spaces and inserting them in code
@@ -199,3 +200,7 @@ def spaces(plain_text, y):
     # 4. Resultant matrix to matrix of elements
     # 5. Check for x towards the end
     # 6. use spaces to insert proper spaces
+
+
+# i wrote the function but woh udd gya :(
+# will redo tom
