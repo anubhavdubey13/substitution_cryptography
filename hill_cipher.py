@@ -21,7 +21,7 @@ def hill_encrypt(plain_text, key = None, ORDER = 3):
     # sanity check
     #invert_to_check(key, code_init, final_matrix) # something wrong here. Some other day
     final = spaces(plain_text, y)
-    return final, key
+    return final, key, code_init
 
 # Step 1: Generate a Random Key
 ORDER = 3
@@ -128,8 +128,8 @@ def input_format(plain_text):
 # Step 3: cipher
 def create_cipher(key, final_matrix):
     
-    code_init = np.dot(key, final_matrix) 
-    code_indices = np.dot(key, final_matrix)%26
+    code_init = np.round(np.dot(key, final_matrix)) 
+    code_indices = np.round(np.dot(key, final_matrix))%26
     #print(code_indices)
     r, c = code_indices.shape
     
@@ -204,3 +204,18 @@ def spaces(plain_text, y):
 
 # i wrote the function but woh udd gya :(
 # will redo tom
+
+# A very bad solution is needing code_init
+# I take modulo and doing reverse w/o any idea about code_init gonna be difficult
+
+# Rudimentary solution
+def hill_decrypt(cipher_text, key, code_init):
+    # basically no need for cipher_text
+    s, ci = create_cipher(np.linalg.inv(key), code_init)
+    y = join_the_secret(s)
+    plain = spaces(cipher_text, y)
+    return plain
+
+# I am currently laughing at this solution.
+# Need to figure out a way to break this code
+    
