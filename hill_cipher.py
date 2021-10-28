@@ -218,4 +218,104 @@ def hill_decrypt(cipher_text, key, code_init):
 
 # I am currently laughing at this solution.
 # Need to figure out a way to break this code
+
+# There is something called as inverse modulo. Seems that needs to be used.
+
+# So euclidea method to solve equation
+
+def mod_26(a):
+    if a == 1:
+        print('does not work for a = 1')
+    else:
+
+        b = 26
+        while a !=0:
+            print(a,b)
+            c = b%a
+            b = a
+            a = c
+            print(c)
+
+    return None
+
+def mod_rem(a, b = 26):
+    l = []
+    m = []
+    while a != 0:
+        l.append(b)
+        c = b%a
+        d = b//a
+        b = a
+        a = c
+        m.append(d)
+    return l, m
+
+# I really wish to look up the code online but will try to figure out myself
+l, m = mod_rem(17)
+if l[-2] - (l[-2]//l[-1])*l[-1] == 1:
     
+
+
+#==============ROUGH OUTPUT==========================
+# mod_rem(17, 29)
+# Out[40]: [29, 17, 12, 5, 2]
+
+# 12%26
+# Out[41]: 12
+
+# 12%29
+# Out[42]: 12
+
+# -12%29
+# Out[43]: 17
+
+# -3%26
+# Out[44]: 23
+
+# 5 - 2*2
+# Out[45]: 1
+
+# 5 - 2*(12-2*5)
+# Out[46]: 1
+
+# (17-12) - 2*(12-2*5)
+# Out[47]: 1
+
+# (17-(29-17)) - 2*((29-17)-2*(17-12))
+# Out[48]: 1
+
+# (17-(29-17)) - 2*((29-17)-2*(17-(29-17)))
+# Out[49]: 1
+
+# (2*17-29) - 2*((29-17)-2*(2*17-29))
+# Out[50]: 1
+
+# (2*17-29)
+#  - 2*((29-17)-4*17-2*29+2*17)
+#   File "C:\Users\admin\AppData\Local\Temp/ipykernel_13092/3648945413.py", line 2
+#     - 2*((29-17)-4*17-2*29+2*17)
+#     ^
+# IndentationError: unexpected indent
+
+
+# (2*17-29) - 2*((29-17)-4*17-2*29+2*17)
+# Out[52]: 165
+
+# (2*17-29) - 2*((29-17)-4*17-2*29)
+# Out[53]: 233
+
+# (2*17-29) - 2*((29-17)-2*(2*17-29))
+# Out[54]: 1
+
+# (2*17-29) - 2*((29-17)-4*17+2*29)
+# Out[55]: 1
+
+# (2*17-29) - 2*(-5*17+3*29)
+# Out[56]: 1
+
+# (2*17-29) + 10*17-6*29
+# Out[57]: 1
+
+# 12*17-7*29
+# Out[58]: 1
+            
