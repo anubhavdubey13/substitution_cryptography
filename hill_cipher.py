@@ -251,10 +251,35 @@ def mod_rem(a, b = 26):
     return l, m
 
 # I really wish to look up the code online but will try to figure out myself
-l, m = mod_rem(17)
-if l[-2] - (l[-2]//l[-1])*l[-1] == 1:
+# l, m = mod_rem(17)
+# if l[-2] - (l[-2]//l[-1])*l[-1] == 1:
     
+# Plotted a few graphs, figured (-b,a) & (b,-a) makes it 0. Accordingly chose a region
+# to person search
 
+def iter_euclid(a,b=26):
+    for i in range(b):
+        m = -i
+        for j in range(a):
+            n = j
+            if a*m + b*n == 1:
+                sol = (m, n)
+                print(f'{sol} solves the equation {a}*m + {b}*n = 1')
+                return m
+                break
+            else:
+                print('nopes')
+
+# np.dot(K.getH()*(iter_euclid(round(np.linalg.det(k)%26))%26),fm)%26
+# K = np.matrix(k)
+# Still not working
+# Will have to pick up pen and paper
+    
+# Just discovered inverse modulo exists only if gcd(a,b) = 1
+# Tried another way, doesn't work
+# Will have to search more :(
+
+    
 
 #==============ROUGH OUTPUT==========================
 # mod_rem(17, 29)
