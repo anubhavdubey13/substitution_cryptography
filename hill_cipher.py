@@ -1,5 +1,11 @@
 # Hill Cipher
 # Some Algebra coming
+# FINAL EDIT: I realised that it doesn't make sense for me to create decryption functions
+# If I have to break the code, I would probably not have the key with me
+# You can't solve a problem the way it was created
+# So will focus on encryption algos rn. I am sure there are techniques to break them down
+# independent of how encryption works
+# If not, I can always come back later
 
 import numpy as np
 
@@ -267,8 +273,8 @@ def iter_euclid(a,b=26):
                 print(f'{sol} solves the equation {a}*m + {b}*n = 1')
                 return m
                 break
-            else:
-                print('nopes')
+            #else:
+             #   print('nopes')
 
 # np.dot(K.getH()*(iter_euclid(round(np.linalg.det(k)%26))%26),fm)%26
 # K = np.matrix(k)
@@ -279,7 +285,13 @@ def iter_euclid(a,b=26):
 # Tried another way, doesn't work
 # Will have to search more :(
 
-    
+# FINAL WORDS:
+    # I had this in mind in the beginning but slipped
+    # What I have is cipher_matrix = code_init (mod 26)
+    # While the inverse might help, it isn't actually what will help me get code_init
+    # starting from cipher_matrix. I need the factors for each element to multiply with
+    # huhhhh
+    # If there is some mathematical way to do it, I will return 
 
 #==============ROUGH OUTPUT==========================
 # mod_rem(17, 29)
